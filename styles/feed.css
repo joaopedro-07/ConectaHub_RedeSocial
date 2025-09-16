@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+
+nav {
+    height: 120px;
+    background-color: #1D4ED8;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+nav img {
+    height: 120px;
+    margin-left: 20px;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    font-size: 20px;
+    gap: 100px;
+    margin-left: 100px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+nav h3 {
+    margin-left: 100px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main h1 {
+    margin-top: 20px;
+}
+
+main form {
+    padding: 20px;
+    height: 150px;
+    width: 500px;
+    background-color: #838383;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+main form input {
+    width: 100%;
+}
+
+main .post {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+main .post .autor {
+    display: flex;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+main .post .autor img {
+    width: 20px;
+    height: 20px;
+}
+
+main .post .autor h4 {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+main .post .img-post {
+    margin-top: 5px;
+}
