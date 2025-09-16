@@ -1,8 +1,10 @@
 <?php
+include("../conexao.php");
 session_start();
-if (!isset($_SESSION["usuario"])) {
+
+if (!isset($_SESSION["nome_usuario"])) {
     header("Location: ../index.php");
-    exit;
+    exit();
 }
 ?>
 
@@ -43,7 +45,7 @@ if (!isset($_SESSION["usuario"])) {
     </style>
 </head>
 <body>
-    <h2>Bem-vindo ao chat, <?php echo $_SESSION["usuario"]; ?>!</h2>
+    <h2>Bem-vindo ao chat, <?php echo $_SESSION["nome_usuario"]; ?>!</h2>
     <div id="chat"></div>
     <input type="text" id="mensagem" placeholder="Digite sua mensagem...">
     <button id="enviar">Enviar</button>
