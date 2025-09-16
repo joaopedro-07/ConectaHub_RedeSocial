@@ -9,21 +9,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_usuario = $_POST["email_usuario"];
     $senha_usuario = password_hash($_POST["senha_usuario"], PASSWORD_DEFAULT);
 
-    $verifica = $conn->prepare("SELECT id_usuario FROM usuarios WHERE email_usuario = ?");
-    $verifica->bind_param("s", $email_usuario);
-    $verifica->execute();
-    $resultado = $verifica->get_result();
+    // Upload da foto
+    $foto_usuario = null;
+    if (isset($_FILES["foto_usuario"]) && $_FILES["foto_usuario"]["error"] == 0) {
+        $extensao = pathinfo($_FILES["foto_usuario"]["name"], PATHINFO_EXTENSION);
+        $permitidos = ["jpg", "jpeg", "png", "gif"];
 
-    if ($resultado->num_rows > 0) {
-        $mensagem = "Este e-mail já está cadastrado.";
-    } else {
-        $stmt = $conn->prepare("INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nome_usuario, $email_usuario, $senha_usuario);
+        if (in_array(strtolower($extensao), $permitidos)) {
+            $novo_nome = uniqid() . "." . $extensao;
+            $caminho = "../uploads/" . $novo_nome;
 
-        if ($stmt->execute()) {
-            $sucesso = true;
+            if (!is_dir("../uploads")) {
+                mkdir("../uploads", 0777, true);
+            }
+
+            if (move_uploaded_file($_FILES["foto_usuario"]["tmp_name"], $caminho)) {
+                $foto_usuario = $novo_nome;
+            } else {
+                $mensagem = "Erro ao salvar a foto.";
+            }
         } else {
-            $mensagem = 'Erro ao cadastrar: ' . $conn->error;
+            $mensagem = "Formato de imagem inválido. Use JPG, PNG ou GIF.";
+        }
+    }
+
+    if (empty($mensagem)) {
+        $verifica = $conn->prepare("SELECT id_usuario FROM usuarios WHERE email_usuario = ?");
+        $verifica->bind_param("s", $email_usuario);
+        $verifica->execute();
+        $resultado = $verifica->get_result();
+
+        if ($resultado->num_rows > 0) {
+            $mensagem = "Este e-mail já está cadastrado.";
+        } else {
+            $stmt = $conn->prepare("INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario, foto_usuario) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nome_usuario, $email_usuario, $senha_usuario, $foto_usuario);
+
+            if ($stmt->execute()) {
+                $sucesso = true;
+            } else {
+                $mensagem = 'Erro ao cadastrar: ' . $conn->error;
+            }
         }
     }
 }
@@ -34,65 +60,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Cadastro</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="../styles/cadastro.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            background: linear-gradient(to right, #43cea2, #185a9d);
-            font-family: 'Segoe UI', sans-serif;
+        .upload-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            margin: 15px 0;
         }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        button {
-            background-color: #43cea2;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
+        .upload-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             cursor: pointer;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .upload-preview img {
             width: 100%;
-            font-weight: bold;
+            height: 100%;
+            object-fit: cover;
         }
-        button:hover {
-            background-color: #2bb673;
-        }
-        .link {
-            margin-top: 20px;
-            display: block;
-            color: #185a9d;
-            text-decoration: none;
+        input[type="file"] {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Cadastro</h2>
-        <form method="POST">
+        <h2>CADASTRO</h2>
+        <form method="POST" enctype="multipart/form-data">
             <input type="text" name="nome_usuario" placeholder="Nome" required>
             <input type="email" name="email_usuario" placeholder="Email" required>
             <input type="password" name="senha_usuario" placeholder="Senha" required>
+
+            <!-- Upload de foto -->
+            <div class="upload-container">
+                <label for="foto_usuario" class="upload-preview" id="preview">
+                    <span>+</span>
+                </label>
+                <input type="file" name="foto_usuario" id="foto_usuario" accept="image/*">
+                <p style="font-size: 12px; color: #777;">Clique para escolher sua foto</p>
+            </div>
+
             <button type="submit">Cadastrar</button>
         </form>
         <a class="link" href="../index.php">Já tem conta? Faça login</a>
     </div>
+
+    <script>
+        const inputFile = document.getElementById("foto_usuario");
+        const preview = document.getElementById("preview");
+
+        inputFile.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = "<span>+</span>";
+            }
+        });
+    </script>
 
     <?php if (!empty($mensagem)): ?>
         <script>

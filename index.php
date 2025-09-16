@@ -18,7 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $usuario = $result->fetch_assoc();
 
         if (password_verify($senha_usuario, $usuario["senha_usuario"])) {
-            $_SESSION["usuario"] = $usuario["nome_usuario"];
+            // Salva informações principais na sessão
+            $_SESSION["id_usuario"] = $usuario["id_usuario"];
+            $_SESSION["nome_usuario"] = $usuario["nome_usuario"];
+
             $sucesso = true;
         } else {
             $mensagem = "Email ou senha incorretos!";
@@ -35,62 +38,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <title>Login</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background: linear-gradient(to right, #667eea, #764ba2);
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        button {
-            background-color: #667eea;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #5a67d8;
-        }
-        .link {
-            margin-top: 20px;
-            display: block;
-            color: #764ba2;
-            text-decoration: none;
-        }
-    </style>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
     <div class="container">
-        <h2>Entrar</h2>
-        <form method="POST">
-            <input type="email" name="email_usuario" placeholder="Email" required>
-            <input type="password" name="senha_usuario" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
-        <a class="link" href="./php/cadastro.php">É novo por aqui? Cadastre-se</a>
+        <div class="content-area">
+            <h2>ENTRAR</h2>
+            <form method="POST">
+                <input type="email" name="email_usuario" placeholder="Email" required>
+                <input type="password" name="senha_usuario" placeholder="Senha" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <a class="link" href="./php/cadastro.php">É novo por aqui? Cadastre-se</a>
+        </div>
     </div>
 
     <?php if (!empty($mensagem)): ?>

@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
 $user = "root"; 
-$pass = "";     // se você não colocou senha no MySQL do XAMPP, deixa vazio
-$db   = "conecta_tech"; // esse nome tem que ser igual ao do banco que você criou
+$pass = "";     
+$db   = "conecta_tech"; 
 
 $conn = new mysqli($host, $user, $pass, $db);
 

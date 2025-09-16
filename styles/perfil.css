@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+body {
+    background-color: #9ac2ff;
+    min-height: 100vh;
+}
+nav {
+    height: 120px;
+    background-color: #1D4ED8;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+nav img {
+    height: 120px;
+    margin-left: 20px;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    font-size: 20px;
+    gap: 100px;
+    margin-left: 100px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+nav h3 {
+    margin-left: 100px;
+}
+#container {
+    background-color: #182644;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    height:466px
+}
+#user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #182644;
+    margin-top: 70px;
+    margin-bottom: 40px;
+}
+
+#user-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info-text {
+    text-align: left;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+#edit-profile {
+    background-color: #1D4ED8;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+    width: 130px;
+}
+
+#edit-profile:hover {
+    background-color: #357abd;
+}
+#logout{
+    background-color: #f90000;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+    width: 130px;
+}
+#logout:hover {
+    background-color: #ff5050;
+}
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px; 
+    padding: 50px;
+}
+#edit-panel {
+    background-color: #182644;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 550px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+#edit-panel input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#edit-panel label{
+    text-align: left;
+    justify-content: left;
+    margin-right: 460px;
+    margin-bottom: 10px;
+}
+#edit-panel img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.hidden {
+    display: none;
+}
