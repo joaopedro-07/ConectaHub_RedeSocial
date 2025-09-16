@@ -2,13 +2,14 @@
 include(__DIR__ . "/../conexao.php");
 
 $mensagem = "";
+$sucesso = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_usuario  = $_POST["nome_usuario"];
     $email_usuario = $_POST["email_usuario"];
     $senha_usuario = password_hash($_POST["senha_usuario"], PASSWORD_DEFAULT);
 
-    $verifica = $conn->prepare("SELECT id FROM usuarios WHERE email_usuario = ?");
+    $verifica = $conn->prepare("SELECT id_usuario FROM usuarios WHERE email_usuario = ?");
     $verifica->bind_param("s", $email_usuario);
     $verifica->execute();
     $resultado = $verifica->get_result();
@@ -20,10 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sss", $nome_usuario, $email_usuario, $senha_usuario);
 
         if ($stmt->execute()) {
-            header("Location: ../index.php");
-            exit;
+            $sucesso = true;
         } else {
-            $mensagem = "Erro ao cadastrar: " . $conn->error;
+            $mensagem = 'Erro ao cadastrar: ' . $conn->error;
         }
     }
 }
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Cadastro</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: linear-gradient(to right, #43cea2, #185a9d);
@@ -73,10 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         button:hover {
             background-color: #2bb673;
         }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
         .link {
             margin-top: 20px;
             display: block;
@@ -95,9 +92,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Cadastrar</button>
         </form>
         <a class="link" href="../index.php">Já tem conta? Faça login</a>
-        <?php if (!empty($mensagem)): ?>
-            <p class="error"><?php echo $mensagem; ?></p>
-        <?php endif; ?>
     </div>
+
+    <?php if (!empty($mensagem)): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: '<?php echo $mensagem; ?>'
+                });
+            });
+        </script>
+    <?php elseif ($sucesso): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cadastro realizado com sucesso!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location.href = '../index.php';
+                });
+            });
+        </script>
+    <?php endif; ?>
 </body>
 </html>

@@ -3,6 +3,7 @@ include("./conexao.php");
 session_start();
 
 $mensagem = "";
+$sucesso = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email_usuario = $_POST["email_usuario"];
@@ -18,8 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (password_verify($senha_usuario, $usuario["senha_usuario"])) {
             $_SESSION["usuario"] = $usuario["nome_usuario"];
-            header("Location: ./php/feed.php");
-            exit;
+            $sucesso = true;
         } else {
             $mensagem = "Email ou senha incorretos!";
         }
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background: linear-gradient(to right, #667eea, #764ba2);
@@ -73,10 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         button:hover {
             background-color: #5a67d8;
         }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
         .link {
             margin-top: 20px;
             display: block;
@@ -94,9 +91,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <button type="submit">Entrar</button>
         </form>
         <a class="link" href="./php/cadastro.php">É novo por aqui? Cadastre-se</a>
-        <?php if (!empty($mensagem)): ?>
-            <p class="error"><?php echo $mensagem; ?></p>
-        <?php endif; ?>
     </div>
+
+    <?php if (!empty($mensagem)): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?php echo $mensagem; ?>'
+            });
+        </script>
+    <?php elseif ($sucesso): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Login realizado com sucesso!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                window.location.href = './php/feed.php';
+            });
+        </script>
+    <?php endif; ?>
 </body>
 </html>
