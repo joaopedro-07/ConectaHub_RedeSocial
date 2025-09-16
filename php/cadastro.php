@@ -1,25 +1,103 @@
 <?php
 include(__DIR__ . "/../conexao.php");
 
+$mensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_usuario  = $_POST["nome_usuario"];
     $email_usuario = $_POST["email_usuario"];
-    $senha_usuario = password_hash($_POST["senha_usuario"], PASSWORD_DEFAULT); // senha criptografada
+    $senha_usuario = password_hash($_POST["senha_usuario"], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario) VALUES ('$nome_usuario', '$email_usuario', '$senha_usuario')";
-    
-    if ($conn->query($sql) === TRUE) {
-        echo "Cadastro realizado com sucesso! <a href='../index.php'>Fazer login</a>";
+    $verifica = $conn->prepare("SELECT id FROM usuarios WHERE email_usuario = ?");
+    $verifica->bind_param("s", $email_usuario);
+    $verifica->execute();
+    $resultado = $verifica->get_result();
+
+    if ($resultado->num_rows > 0) {
+        $mensagem = "Este e-mail já está cadastrado.";
     } else {
-        echo "Erro: " . $conn->error;
+        $stmt = $conn->prepare("INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $nome_usuario, $email_usuario, $senha_usuario);
+
+        if ($stmt->execute()) {
+            header("Location: ../index.php");
+            exit;
+        } else {
+            $mensagem = "Erro ao cadastrar: " . $conn->error;
+        }
     }
 }
 ?>
 
-<form method="POST">
-    Nome: <input type="text" name="nome_usuario" required><br>
-    Email: <input type="email" name="email_usuario" required><br>
-    Senha: <input type="password" name="senha_usuario" required><br>
-    <button type="submit">Cadastrar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #43cea2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2bb673;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .link {
+            margin-top: 20px;
+            display: block;
+            color: #185a9d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro</h2>
+        <form method="POST">
+            <input type="text" name="nome_usuario" placeholder="Nome" required>
+            <input type="email" name="email_usuario" placeholder="Email" required>
+            <input type="password" name="senha_usuario" placeholder="Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <a class="link" href="../index.php">Já tem conta? Faça login</a>
+        <?php if (!empty($mensagem)): ?>
+            <p class="error"><?php echo $mensagem; ?></p>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
