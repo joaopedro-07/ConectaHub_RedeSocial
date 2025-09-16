@@ -8,6 +8,10 @@
     font-family: 'Poppins';
 }
 
+body {
+    background-color: #9ac2ff;
+}
+
 nav {
     height: 120px;
     background-color: #1D4ED8;
@@ -48,6 +52,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #9ac2ff;
 }
 
 main h1 {
@@ -55,42 +60,150 @@ main h1 {
 }
 
 main form {
-    padding: 20px;
-    height: 150px;
-    width: 500px;
-    background-color: #838383;
-    border-radius: 10px;
-    margin-top: 5px;
+    padding: 25px;
+    width: 700px; /* mesma largura dos posts */
+    background-color: #182644; /* azul escuro */
+    border-radius: 12px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    color: white;
 }
 
-main form input {
-    width: 100%;
+main form label {
+    margin-top: 12px;
+    font-weight: 500;
+    font-size: 14px;
 }
+
+main form input[type="text"],
+main form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0f172a; /* tom mais escuro para contraste */
+    color: white;
+    font-size: 14px;
+}
+
+main form input[type="file"] {
+    padding: 5px 0;
+}
+
+main form button {
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1d4ed8; /* botão azul */
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+main form button:hover {
+    background-color: #2563eb; /* hover */
+}
+
 
 main .post {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    border-radius: 12px;
+    background: #182644; /* cor pedida */
+    width: 700px; /* mais largo */
+    min-height: 300px; /* mais alto */
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    color: white; /* texto branco pra contraste */
 }
 
+/* cabeçalho do post */
 main .post .autor {
     display: flex;
-    flex-direction: row;
-    display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 main .post .autor img {
-    width: 20px;
-    height: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
 }
 
 main .post .autor h4 {
-    font-weight: 500;
-    font-size: 13px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
+/* título e descrição */
+main .post h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+main .post p {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+/* imagem do post */
 main .post .img-post {
-    margin-top: 5px;
+    width: 100%;
+    max-height: 500px;
+    border-radius: 10px;
+    margin-top: 15px;
+    object-fit: contain;
+    background: #0f172a;
+    border: 1px solid #334155;
+}
+
+/* data simplificada */
+main .post small {
+    color: #ccc;
+    font-size: 13px;
+    margin-top: 12px;
+    align-self: flex-end;
+}
+
+footer {
+    background-color: #1D4ED8; /* azul do seu pedido */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+footer .footer-links {
+    display: flex;
+    gap: 40px;
+}
+
+footer .footer-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+footer .footer-links a:hover {
+    color: #a5b4fc; /* tom mais claro no hover */
+}
+
+
+#post-recente {
+    font-size: 32px;
+    margin-top: 20px;
 }
