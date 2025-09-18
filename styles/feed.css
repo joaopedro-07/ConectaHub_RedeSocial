@@ -132,13 +132,14 @@ main .post .autor {
     margin-bottom: 15px;
 }
 
-main .post .autor img {
-    width: 45px;
-    height: 45px;
+.foto-autor {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid white;
+    margin-right: 8px;
 }
+
 
 main .post .autor h4 {
     font-weight: 600;
@@ -202,8 +203,268 @@ footer .footer-links a:hover {
     color: #a5b4fc; /* tom mais claro no hover */
 }
 
+.post-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
 
-#post-recente {
-    font-size: 32px;
-    margin-top: 20px;
+.post-actions .btn-edit,
+.post-actions .btn-delete {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.post-actions .btn-edit {
+    background-color: #2563eb; /* azul */
+}
+
+.post-actions .btn-edit:hover {
+    background-color: #1d4ed8;
+}
+
+.post-actions .btn-delete {
+    background-color: #dc2626; /* vermelho */
+}
+
+.post-actions .btn-delete:hover {
+    background-color: #b91c1c;
+}
+
+
+.comentarios {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #23335a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comentarios form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.comentarios textarea {
+    resize: none;
+    width: 100%;
+    height: 60px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.comentarios button {
+    align-self: center; /* centraliza o botão abaixo do textarea */
+    padding: 6px 14px;
+    background-color: #1D4ED8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    margin-top: 5px;
+}
+
+.comentarios button:hover {
+    background-color: #16379d;
+}
+
+
+/* Lista de comentários */
+.lista-comentarios {
+    margin-top: -20px;
+    padding-left: 15px;
+}
+
+.lista-comentarios p {
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #f1f1f1;
+}
+
+
+.curtidas {
+    margin-top: 10px;
+}
+
+.curtidas form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.curtidas button {
+    padding: 6px 12px;
+    background-color: #1D4ED8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.curtidas button:hover {
+    background-color: #16379d;
+}
+
+.curtidas span {
+    font-size: 13px;
+    color: #f1f1f1;
+}
+
+
+
+
+/* === Linha de curtidas e data === */
+.post-meta {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+}
+
+.curtir-linha {
+    display: flex;
+    gap: 4px;
+}
+
+.curtir-linha form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 5px;
+    margin-top: -10px;
+}
+
+.curtir-linha button {
+    background: none;
+    border: none;
+    font-size: 18px; /* ícone maior */
+    cursor: pointer;
+    padding: 2px 6px;
+    transition: transform 0.2s;
+}
+
+.curtir-linha .curtir-quantidade {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.curtir-linha .botao-curtir {
+    margin-top: -3px;
+}
+
+.curtir-linha button:hover {
+    transform: scale(1.2);
+}
+
+.curtir-linha span {
+    font-size: 13px;
+    color: #f1f1f1;
+    margin-left: 5px;
+}
+
+.curtir-linha small {
+    font-size: 12px;
+    color: #d1d1d1;
+}
+
+.form-coment {
+    background-color: #23335a;
+    box-shadow: none;
+    margin-top: -10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Aplica dentro do modal do SweetAlert */
+.swal2-html-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* espaço entre campos */
+    width: 100%;
+    max-width: 400px; /* deixa o formulário com largura agradável */
+    margin: 0 auto; /* centraliza horizontalmente */
+    margin-left: -10px;
+}
+
+.swal2-html-container label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-align: start;
+    margin-left: 40px;
+}
+
+.swal2-html-container input[type="text"],
+.swal2-html-container textarea,
+.swal2-html-container input[type="file"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: -10px;
+}
+
+.swal2-html-container textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.swal2-html-container button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #3085d6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+.swal2-html-container button[type="submit"]:hover {
+    background-color: #2874c3;
+}
+
+/* Evita barra de rolagem horizontal no modal */
+.swal2-html-container {
+    overflow-x: hidden !important;
+}
+
+.swal2-confirm {
+    align-items: center;
 }
