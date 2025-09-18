@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_usuario = $_POST["email_usuario"];
     $senha_usuario = password_hash($_POST["senha_usuario"], PASSWORD_DEFAULT);
 
-    // Upload da foto
+    // Upload da foto (agora obrigatório)
     $foto_usuario = null;
     if (isset($_FILES["foto_usuario"]) && $_FILES["foto_usuario"]["error"] == 0) {
         $extensao = pathinfo($_FILES["foto_usuario"]["name"], PATHINFO_EXTENSION);
@@ -31,6 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $mensagem = "Formato de imagem inválido. Use JPG, PNG ou GIF.";
         }
+    } else {
+        $mensagem = "É obrigatório enviar uma foto para cadastro.";
     }
 
     if (empty($mensagem)) {
@@ -101,12 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="email" name="email_usuario" placeholder="Email" required>
             <input type="password" name="senha_usuario" placeholder="Senha" required>
 
-            <!-- Upload de foto -->
+            <!-- Upload de foto (obrigatório) -->
             <div class="upload-container">
                 <label for="foto_usuario" class="upload-preview" id="preview">
                     <span>+</span>
                 </label>
-                <input type="file" name="foto_usuario" id="foto_usuario" accept="image/*">
+                <input type="file" name="foto_usuario" id="foto_usuario" accept="image/*" required>
                 <p style="font-size: 12px; color: #777;">Clique para escolher sua foto</p>
             </div>
 

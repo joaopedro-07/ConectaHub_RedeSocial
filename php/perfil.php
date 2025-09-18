@@ -21,13 +21,15 @@ $usuario = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/perfil.css">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <title>Perfil</title>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
         <nav>
-            <img src="../img/conectahub_logoFundoAzul.png" alt="">
+            <img src="../img/conectahub_logoFundoAzul.png" alt="Logo">
             <ul>
                 <li><a href="../php/feed.php">Feed</a></li>
                 <li><a href="../php/chat.php">Mensagens</a></li>
@@ -36,7 +38,7 @@ $usuario = $result->fetch_assoc();
         </nav>
     </header>
     
-     <div class="wrapper">
+    <div class="wrapper">
         <div id="container">
             <h1>Seja bem-vindo, <?php echo htmlspecialchars($usuario['nome_usuario']); ?></h1>
             <p>Aqui você pode visualizar e editar suas informações pessoais.</p>
@@ -50,7 +52,7 @@ $usuario = $result->fetch_assoc();
             </div>
 
             <button id="edit-profile">Editar Perfil</button>
-            <a href="../php/logout.php"><button id="logout">Sair</button></a>
+            <button id="logout">Sair</button>
         </div>
 
         <div id="edit-panel" class="hidden">
@@ -69,24 +71,47 @@ $usuario = $result->fetch_assoc();
             </form>
         </div>
     </div>
+
+    <script>
+        // Alternar painel de edição
+        const editBtn = document.getElementById('edit-profile');
+        const editPanel = document.getElementById('edit-panel');
+        const fileInput = document.getElementById('foto_usuario');
+        const preview = document.getElementById('preview');
+
+        editBtn.addEventListener('click', () => {
+            editPanel.classList.toggle('hidden');
+        });
+
+        // Preview da foto
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => preview.src = e.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Logout com SweetAlert2
+        const logoutBtn = document.getElementById('logout');
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você será desconectado da sua conta!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, sair',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../php/logout.php';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-<script>
-    const editBtn = document.getElementById('edit-profile');
-    const editPanel = document.getElementById('edit-panel');
-    const fileInput = document.getElementById('foto_usuario');
-    const preview = document.getElementById('preview');
-
-    editBtn.addEventListener('click', () => {
-        editPanel.classList.toggle('hidden');
-    });
-
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = e => preview.src = e.target.result;
-            reader.readAsDataURL(file);
-        }
-    });
-</script>

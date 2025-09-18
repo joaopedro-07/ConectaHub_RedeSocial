@@ -2,8 +2,8 @@
 include("../conexao.php");
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["usuario"])) {
-    $usuario = $_SESSION["usuario"];
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["nome_usuario"])) {
+    $usuario = $_SESSION["nome_usuario"];
     $texto = trim($_POST["texto"]);
 
     if ($texto !== "") {
